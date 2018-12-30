@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Health Story</title>
+    <meta name="description" content="Landing page for Health Story">
+    <meta name="author" content="Darshan Kalola">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'landing-page/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'landing-page/css/vendor.css' %}">
+    <link rel="stylesheet" href="{% static 'landing-page/css/main.css' %}">
+
+    <script src="{% static 'landing-page/js/modernizr.js' %}"></script>
+    <script src="{% static 'landing-page/js/pace.min.js' %}"></script>
+
+    <link rel="shortcut icon" href="{% static 'landing-page/favicon.ico' %}">
+    <link rel="icon" href="{% static 'landing-page/favicon.ico' %}">
+</head>
+
+<body id="top">
+<header class="s-header">
+    <div class="header-logo">
+        <a class="site-logo" href="landing-page.html">
+            <img src="{% static 'landing-page/images/logo-health_story.png' %}" alt="Homepage"/>
+        </a>
+    </div>
+</header>
+
+<section id="home-section" class="s-home target-section" data-parallax="scroll" data-image-src="{% static 'landing-page/images/hero-bg.jpg' %}" data-natural-width=3000 data-natural-height=2000 data-position-y=center>
+    <div class="home-content">
+        <div class="row home-content__main">
+            <h3>Welcome to your Health Story</h3>
+            <h1>
+                An easy way to <br>
+                keep track of your<br>
+                medical history.<br>
+            </h1>
+            <div class="home-content__buttons">
+                <a href="{% url 'accounts/login' %}" class="btn btn--stroke">
+                    Login
+                </a>
+                <a href="{% url 'accounts/sign-up' %}" class="btn btn--stroke">
+                    Sign Up
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{% static 'landing-page/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'landing-page/js/plugins.js' %}"></script>
+<script src="{% static 'landing-page/js/main.js' %}"></script>
+
+</body>
+</html>

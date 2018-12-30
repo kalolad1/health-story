@@ -1,0 +1,15 @@
+.wrap-login100 {
+  width: 840px;
+}
+
+.wrap-input100 {
+  width: 33.33%;
+}
+
+.wrap-input100.rs2 {
+  border-top-right-radius: 0;
+}
+
+.wrap-input100.rs3 {
+  border-top-right-radius: 12px;
+}

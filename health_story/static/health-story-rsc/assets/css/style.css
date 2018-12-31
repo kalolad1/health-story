@@ -1016,14 +1016,14 @@ aside.left-panel {
   border-radius: 0;
   border: none;
   display: block;
-  margin: 0 0 100px;
+  margin: 0 0 100px 0;
   padding: 0; }
   .navbar .navbar-header {
     float: none;
     text-align: center;
     width: 100%; }
   .navbar .navbar-brand {
-    border-bottom: 1px solid #4e4e52;
+    /* border-bottom: 1px solid #4e4e52; */
     color: #f1f2f7 !important;
     font-family: 'Open Sans';
     font-size: 22px;
@@ -1048,7 +1048,7 @@ aside.left-panel {
     .navbar .navbar-brand span {
       font-weight: 600; }
     .navbar .navbar-brand img {
-      max-width: 160px; }
+      max-width: 50px; }
     .navbar .navbar-brand.hidden {
       display: none; }
   .navbar .menu-title {

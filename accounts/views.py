@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.models import User
+from health_story.models import Patient
 
 
 def login(request):
@@ -23,8 +24,13 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
 
         if user is not None:
-            # User was able to be logged in successful. Sends them to the health story home page.
+            # User was able to be logged in successful.
             auth.login(request, user)
+
+            # Check if they filled out the registration form.
+            if not Patient.is_user_registered(user.username):
+                return redirect('accounts/patient-registration')
+
             return redirect('health_story/home')
         else:
             # Either the username or password was incorrect. Sends them back to the login page.
@@ -62,13 +68,43 @@ def sign_up(request):
                 # No existing user exists, create user successfully and bring them to the home page.
                 user = User.objects.create_user(username=username, password=password)
                 auth.login(request, user)
-                return redirect('health_story/home')
+                return redirect('accounts/patient-registration')
         else:
             # User failed to enter two passwords that matched.
             return render(request, 'accounts/sign-up.html', {'error': 'Passwords do not match!'})
 
     # Displays sign up page.
     return render(request, 'accounts/sign-up.html')
+
+
+def patient_registration(request):
+    if request.method == 'POST':
+        # Obtain information and create patient model
+        try:
+            first_name = request.POST['first-name']
+            last_name = request.POST['last-name']
+            date_of_birth = request.POST['date-of-birth']
+            email = request.POST['email']
+            sex = request.POST['sex']
+            race = request.POST['race']
+        # User did not fill out all fields.
+        except KeyError:
+            error = "Please fill out all the fields!"
+            return render(request, 'accounts/patient-registration.html', {'error': error})
+
+        patient = Patient()
+        patient.username = request.user
+        patient.first_name = first_name
+        patient.last_name = last_name
+        patient.date_of_birth = date_of_birth
+        patient.email = email
+        patient.sex = sex
+        patient.race = race
+        patient.save()
+
+        return redirect('health_story/home')
+    else:
+        return render(request, 'accounts/patient-registration.html')
 
 
 def logout(request):
@@ -82,7 +118,8 @@ def logout(request):
     Returns:
         A redirect to the landing page.
     """
-    if request.method == 'POST':
-        auth.logout(request)
-        return redirect('landing-page')
+    auth.logout(request)
+    return redirect('landing-page')
+
+
 

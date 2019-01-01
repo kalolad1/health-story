@@ -97,7 +97,7 @@ module.exports = function(grunt) {
       'saucelabs-qunit': {
           all: {
               options: {
-                  urls: ["http://127.0.0.1:9999/test/index.html?hidepassed"],
+                  urls: ["http://127.0.0.1:9999/test/patient-registration.html?hidepassed"],
                   build: process.env.TRAVIS_JOB_ID,
                   throttled: 3,
                   "max-duration" : 600, // seconds, IE6 is slow

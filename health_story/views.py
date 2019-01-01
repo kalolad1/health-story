@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from .models import Patient
 
 
 def home(request):
-    user = request.user
-    return render(request, 'health_story/home.html', {'user': user})
+    patient = Patient.objects.get(username=request.user.username)
+    return render(request, 'health_story/home.html', {'patient': patient})

@@ -1,0 +1,53 @@
+{% extends 'health_story/home-base.html' %}
+
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/timeline.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="timeline-content-self">
+        <h1>Timeline</h1>
+
+        <div class="add-encounter-button-container">
+            <form>
+                <input type="submit" value="Add a Health Encounter" />
+            </form>
+        </div>
+
+        <div class="main-timeline">
+            <div class="timeline">
+                <a href="" class="timeline-content">
+                    <div class="timeline-icon">
+                        <i class="fa fa-bed"></i>
+                    </div>
+                    <div class="inner-content">
+                        <h3 class="title">NY Presbytarian</h3>
+                        <p class="date">
+                            March 12th, 2019
+                        </p>
+                        <p class="description">
+                            It was a very good surgery. It was a very good surgery. It was a very good surgery.
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="timeline">
+                <a href="" class="timeline-content">
+                    <div class="timeline-icon">
+                        <i class="fa fa-bed"></i>
+                    </div>
+                    <div class="inner-content">
+                        <h3 class="title">NY Presbytarian</h3>
+                        <p class="date">
+                            March 12th, 2019
+                        </p>
+                        <p class="description">
+                            It was a very good surgery. It was a very good surgery. It was a very good surgery.
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

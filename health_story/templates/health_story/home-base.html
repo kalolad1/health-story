@@ -33,21 +33,21 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="./"><img src="{% static 'health-story-rsc/images/logo.png' %}" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="{% static 'health-story-rsc/images/logo.png' %}" alt="Logo"></a>
+                <a class="navbar-brand" href="{% url 'health_story/home' %}"><img src="{% static 'health-story-rsc/images/logo.png' %}" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="{% url 'health_story/home' %}"><img src="{% static 'health-story-rsc/images/logo.png' %}" alt="Logo"></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><h3 class="menu-title">Vitals</h3></li>
+                    <li><h3 class="menu-title">Personal</h3></li>
                     <li>
-                        <a href=""> <i class="menu-icon ti-pulse"></i>Current</a>
+                        <a href="{% url 'health_story/demographics' %}"> <i class="menu-icon ti-user"></i>Demographics</a>
                     </li>
                     <li>
-                        <a href=""> <i class="menu-icon ti-heart"></i>Past</a>
+                        <a href="{% url 'health_story/vitals' %}"> <i class="menu-icon ti-pulse"></i>Vitals</a>
                     </li>
 
-                    <li><h3 class="menu-title">History</h3></li>
+                    <li><h3 class="menu-title">Medical History</h3></li>
                     <li>
                         <a href="{% url 'health_story/timeline' %}"> <i class="menu-icon ti-direction"></i>Timeline</a>
                     </li>
@@ -189,10 +189,10 @@
 
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right">
-                        <span style="text-align: center; margin-right: 10px">{{ patient.full_name }}</span>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="{% static 'health-story-rsc/images/admin.jpg' %}" alt="User Avatar">
                         </a>
+                        <span style="margin-right: 10px; margin-top: 6px; float: right;">{{ patient.full_name }}</span>
 
                         <div class="user-menu dropdown-menu">
 {#                            <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>#}

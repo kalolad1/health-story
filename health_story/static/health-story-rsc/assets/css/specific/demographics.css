@@ -1,0 +1,22 @@
+.row {
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.card,
+.bg-light,
+.mb-3,
+.override {
+    margin-right: 10px;
+    max-width: 30rem;
+    border-radius: 10px;
+}
+
+.card-text,
+.override {
+    font-size: 30px;
+}
+
+
+
+

@@ -1,0 +1,53 @@
+{% extends 'health_story/home-base.html' %}
+
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/demographics.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="card bg-light mb-3 override">
+            <div class="card-body">
+                <h5 class="card-title">Username</h5>
+                <p class="card-text override">{{ patient.username }}</p>
+            </div>
+        </div>
+        <div class="card bg-light mb-3 override">
+            <div class="card-body">
+                <h5 class="card-title">Name</h5>
+                <p class="card-text override">{{ patient.get_full_name }}</p>
+            </div>
+        </div>
+        <div class="card bg-light mb-3 override">
+            <div class="card-body">
+                <h5 class="card-title">Date of Birth</h5>
+                <p class="card-text">{{ patient.get_date_of_birth_formatted }}</p>
+            </div>
+        </div>
+        <div class="card bg-light mb-3 override">
+            <div class="card-body">
+                <h5 class="card-title">Age</h5>
+                <p class="card-text">{{ patient.get_age }}</p>
+            </div>
+        </div>
+        <div class="card bg-light mb-3 override">
+            <div class="card-body">
+                <h5 class="card-title">Sex</h5>
+                <p class="card-text">{{ patient.sex }}</p>
+            </div>
+        </div>
+        <div class="card bg-light mb-3 override">
+            <div class="card-body">
+                <h5 class="card-title">Race</h5>
+                <p class="card-text">{{ patient.race }}</p>
+            </div>
+        </div>
+        <div class="card bg-light mb-3 override">
+            <div class="card-body">
+                <h5 class="card-title">Email</h5>
+                <p class="card-text">{{ patient.email }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

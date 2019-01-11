@@ -1,11 +1,12 @@
 from django.db import models
 from datetime import date
 from django.utils import timezone
+from measurement.measures import Weight, Distance
+from django_measurement.models import MeasurementField
 
 
 class Patient(models.Model):
     # Demographic information
-    # The following fields are required to filled out by the user.
     username = models.CharField(max_length=30)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -13,6 +14,10 @@ class Patient(models.Model):
     email = models.CharField(max_length=75)
     sex = models.CharField(max_length=50)
     race = models.CharField(max_length=50)
+
+    # Vital information
+    weight = MeasurementField(measurement=Weight, null=True)
+    height = MeasurementField(measurement=Distance, null=True)
 
     # The following fields are calculated without user input.
     date_created = models.DateField(default=timezone.now)
@@ -23,9 +28,9 @@ class Patient(models.Model):
         Returns:
             string: Full name of the patient.
         """
-        return self.full_name()
+        return self.get_full_name()
 
-    def full_name(self):
+    def get_full_name(self):
         """Returns the full name of the patient.
 
         Returns:
@@ -42,13 +47,31 @@ class Patient(models.Model):
         days_old = (date.today() - self.date_of_birth).days
         return days_old // 365
 
-    def date_of_first_visit_formatted(self):
+    def get_date_of_first_visit_formatted(self):
         """Formats the date of the patients first visit in a readable way.
 
         Returns:
             string: The date of the first visit.
         """
-        return self.date_created.strftime("%b %e %Y'")
+        return self.date_created.strftime("%b %e %Y")
+
+    def get_date_of_birth_formatted(self):
+        """Formats the date of birth of the patient.
+
+        Returns:
+            The date of the first visit in a readable format.
+        """
+        return self.date_of_birth.strftime("%b %e %Y")
+
+    def get_height_formatted(self):
+        """Formats the height from inches to ft inches format.
+
+        Returns:
+            A formatted string representing the patients height.
+        """
+        feet = int(self.height.inch) // 12
+        inches = self.height.inch - float(feet * 12)
+        return "{feet} feet {inches} inches".format(feet=feet, inches=inches)
 
     @staticmethod
     def is_user_registered(username):

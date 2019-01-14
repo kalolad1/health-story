@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Patient, HealthEncounter
+from .models import Patient, HealthEncounter, Relative, Disease
 from django.contrib.auth.decorators import login_required
 from .helper import choices, constants
 
@@ -35,6 +35,15 @@ def timeline(request):
 
     return render(request, 'health_story/timeline.html', {'patient': patient,
                                                           'health_encounters': health_encounters})
+
+
+@login_required
+def family_history(request):
+    patient = Patient.objects.get(id=request.session['patient_id'])
+    relatives = patient.relatives.all()
+
+    return render(request, 'health_story/family-history.html', {'patient': patient,
+                                                                'relatives': relatives})
 
 
 # Add or modify pages.

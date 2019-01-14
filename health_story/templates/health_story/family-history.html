@@ -1,0 +1,26 @@
+{% extends 'health_story/home-base.html' %}
+
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/family-history.css'%}">
+{% endblock %}
+
+{% block content %}
+    <div class="family-history-content">
+        <h1 style="text-align: center">Family History</h1>
+
+        <div class="relative-list">
+            <ul class="list-group">
+                {% for relative in relatives %}
+                    <li class="list-group-item">
+                        {{ relative.full_name }}:
+
+                        {% for disease in relative.diseases.all %}
+                            {{ disease.name }},
+                        {% endfor %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

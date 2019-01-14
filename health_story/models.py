@@ -5,6 +5,7 @@ from measurement.measures import Weight, Distance
 from django_measurement.models import MeasurementField
 from .helper import choices
 
+
 class Patient(models.Model):
     # Demographic information
     username = models.CharField(max_length=30)
@@ -21,6 +22,9 @@ class Patient(models.Model):
 
     # The following fields are calculated without user input.
     date_created = models.DateField(default=timezone.now)
+
+    # Family history.
+    relatives = models.ManyToManyField('Relative')
 
     def __str__(self):
         """Returns the string representation of the patient object.
@@ -69,8 +73,12 @@ class Patient(models.Model):
         Returns:
             A formatted string representing the patients height.
         """
-        feet = int(self.height.inch) // 12
-        inches = self.height.inch - float(feet * 12)
+        try:
+            feet = int(self.height.inch) // 12
+            inches = self.height.inch - float(feet * 12)
+        except AttributeError:
+            feet = -1
+            inches = -1
         return "{feet} feet {inches} inches".format(feet=feet, inches=inches)
 
     @staticmethod
@@ -123,3 +131,31 @@ class HealthEncounter(models.Model):
             Fa icon name.
         """
         return choices.HE_TO_ICON[self.type_of_encounter]
+
+
+class Relative(models.Model):
+    full_name = models.CharField(max_length=100)
+    diseases = models.ManyToManyField('Disease')
+
+    def __str__(self):
+        """
+        Returns a string representation of a Relative object.
+
+        Returns:
+             The relatives name.
+        """
+        return self.full_name
+
+
+class Disease(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        """
+        Returns a string representation of a Disease object.
+
+        Returns:
+             The diseases name.
+        """
+        return self.name
+

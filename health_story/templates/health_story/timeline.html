@@ -10,44 +10,30 @@
         <h1>Timeline</h1>
 
         <div class="add-encounter-button-container">
-            <form>
+            <form action="{% url 'health_story/modify/add_health_encounter' %}" method="GET">
                 <input type="submit" value="Add a Health Encounter" />
             </form>
         </div>
 
         <div class="main-timeline">
-            <div class="timeline">
-                <a href="" class="timeline-content">
-                    <div class="timeline-icon">
-                        <i class="fa fa-bed"></i>
-                    </div>
-                    <div class="inner-content">
-                        <h3 class="title">NY Presbytarian</h3>
-                        <p class="date">
-                            March 12th, 2019
-                        </p>
-                        <p class="description">
-                            It was a very good surgery. It was a very good surgery. It was a very good surgery.
-                        </p>
-                    </div>
-                </a>
-            </div>
-            <div class="timeline">
-                <a href="" class="timeline-content">
-                    <div class="timeline-icon">
-                        <i class="fa fa-bed"></i>
-                    </div>
-                    <div class="inner-content">
-                        <h3 class="title">NY Presbytarian</h3>
-                        <p class="date">
-                            March 12th, 2019
-                        </p>
-                        <p class="description">
-                            It was a very good surgery. It was a very good surgery. It was a very good surgery.
-                        </p>
-                    </div>
-                </a>
-            </div>
+            {% for encounter in health_encounters %}
+                <div class="timeline">
+                    <a href="" class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fa fa-bed"></i>
+                        </div>
+                        <div class="inner-content">
+                            <h3 class="title">{{ encounter.location }}</h3>
+                            <p class="date">
+                                {{ encounter.date_formatted }}
+                            </p>
+                            <p class="description">
+                                {{ encounter.description }}
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

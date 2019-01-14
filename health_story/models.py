@@ -3,7 +3,7 @@ from datetime import date
 from django.utils import timezone
 from measurement.measures import Weight, Distance
 from django_measurement.models import MeasurementField
-
+from .helper import choices
 
 class Patient(models.Model):
     # Demographic information
@@ -80,3 +80,46 @@ class Patient(models.Model):
             return True
         except Patient.DoesNotExist:
             return False
+
+
+class HealthEncounter(models.Model):
+    # Parties involved.
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    # TODO Make actually object.
+    physician = models.CharField(max_length=100)
+
+    date = models.DateField(default=timezone.now)
+    location = models.CharField(max_length=100)
+
+    # TODO Make choices for this.
+    type_of_encounter = models.CharField(max_length=100, choices=choices.TYPE_OF_HEALTH_ENCOUNTER)
+
+    # TODO Make more structured.
+    description = models.CharField(max_length=100)
+
+    def __str__(self):
+        """
+        Returns a string representation of a HealthEncounter object.
+
+        Returns:
+             The patient name, physician name, and date.
+        """
+        return self.patient.get_full_name() + " with " + self.physician + " on " + self.date_formatted()
+
+    def date_formatted(self):
+        """
+        Formats the date of the Health Encounter in a readable way.
+
+        Returns:
+            The date of the Health Encounter.
+        """
+        return self.date.strftime("%b %e %Y")
+
+    def he_type_fa_icon(self):
+        """
+        Returns the fa icon name according to the health encounter type.
+
+        Returns:
+            Fa icon name.
+        """
+        return choices.HE_TO_ICON[self.type_of_encounter]

@@ -1,0 +1,73 @@
+{% extends 'health_story/modify_views/base.html' %}
+
+{% block head %}
+    <title>Add a Health Encounter</title>
+{% endblock %}
+
+{% block title %}
+    Add a Health Encounter
+{% endblock %}
+
+{% block content %}
+    <div class="form-row m-b-55">
+        <div class="name">Physician</div>
+        <div class="value">
+            <div class="row row-space">
+                <div class="col-2">
+                    <div class="input-group-desc">
+                        <input class="input--style-5" type="text" name="first-name">
+                        <label class="label--desc">first name</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="input-group-desc">
+                        <input class="input--style-5" type="text" name="last-name">
+                        <label class="label--desc">last name</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="name">Location</div>
+        <div class="value">
+            <div class="input-group">
+                <input class="input--style-5" type="text" name="location">
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="name">Type of Encounter</div>
+        <div class="value">
+            <div class="input-group">
+                <div class="rs-select2 js-select-simple select--no-search">
+                    <select name="type-of-encounter">
+                        <option disabled="disabled" selected="selected">Choose option</option>
+                        {% for option in type_options %}
+                            <option>{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="select-dropdown"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="name">Description</div>
+        <div class="value">
+            <div class="input-group">
+                <input class="input--style-5" type="text" name="description">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block action_type %}
+    Add
+{% endblock %}
+
+{% block return_button %}
+<form method="GET" action="{% url 'health_story/timeline' %}">
+    <button class="btn btn--radius-2 btn--green" type="submit">Go Back</button>
+</form>
+{% endblock %}

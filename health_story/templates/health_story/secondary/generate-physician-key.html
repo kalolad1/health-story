@@ -1,12 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Generate Physician Key</title>
-</head>
-<body>
-<h1>Generate Physician Key</h1>
+{% extends 'health_story/bases/home-base.html' %}
 
-<p>Your code is {{ patient.physician_code }}</p>
-</body>
-</html>
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/card-display.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <h1>Your Physician Key</h1>
+
+
+        <div style="max-width: 40rem; margin: 10px auto" class="card bg-light mb-3 override">
+            <div class="card-body">
+                <h5 class="card-title">Expires: {{ patient.get_physician_code_expiration_time }}</h5>
+                <p class="card-text">{{ patient.physician_code }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

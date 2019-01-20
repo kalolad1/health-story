@@ -6,17 +6,21 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="card bg-light mb-3 override">
-            <div class="card-body">
-                <h5 class="card-title">Weight</h5>
-                <p class="card-text">{{ patient.weight.lb }} lb</p>
+    <div class="content-container">
+        <h1>Vitals</h1>
+
+        <div class="row">
+            <div class="card bg-light mb-3 override">
+                <div class="card-body">
+                    <h5 class="card-title">Weight</h5>
+                    <p class="card-text">{{ patient.weight.lb }} lb</p>
+                </div>
             </div>
-        </div>
-        <div class="card bg-light mb-3 override">
-            <div class="card-body">
-                <h5 class="card-title">Height</h5>
-                <p class="card-text">{{ patient.get_height_formatted }}</p>
+            <div class="card bg-light mb-3 override">
+                <div class="card-body">
+                    <h5 class="card-title">Height</h5>
+                    <p class="card-text">{{ patient.get_height_formatted }}</p>
+                </div>
             </div>
         </div>
     </div>

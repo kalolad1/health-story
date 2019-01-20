@@ -16,7 +16,7 @@ def landing_page(request):
     """
     if request.user.is_authenticated:
         if Patient.is_user_registered(username=request.user.username):
-            return redirect('health_story/home')
+            return redirect('health_story/set_up')
         else:
             return redirect('accounts/patient-registration')
 

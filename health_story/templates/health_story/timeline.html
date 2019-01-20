@@ -3,11 +3,24 @@
 {% block head %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/timeline.css' %}">
+    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/card-display.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="timeline-content-self">
+    <div class="content-container">
         <h1>Timeline</h1>
+
+        {% if not health_encounters %}
+            <div class="row">
+                <div class="card bg-light mb-3 override">
+                    <div class="card-body">
+                        <h5 class="card-title">No health encounters stored!</h5>
+                        <p class="card-text">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 
         <div class="main-timeline">
             {% for encounter in health_encounters %}

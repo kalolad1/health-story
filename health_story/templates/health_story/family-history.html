@@ -6,10 +6,20 @@
 {% endblock %}
 
 {% block content %}
-    <div class="medical-history-content">
+    <div class="content-container">
         <h1>Family History</h1>
 
         <div class="row">
+            {% if not relatives %}
+                <div class="card bg-light mb-3 override">
+                    <div class="card-body">
+                        <h5 class="card-title">No relatives stored!</h5>
+                        <p class="card-text">
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+
             {% for relative in relatives %}
                 <div class="card bg-light mb-3 override">
                     <div class="card-body">

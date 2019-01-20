@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from django.utils import timezone
 from measurement.measures import Weight, Distance
 from django_measurement.models import MeasurementField
@@ -27,6 +27,7 @@ class Patient(models.Model):
     relatives = models.ManyToManyField('Relative')
 
     # The physician code expires in a short amount of time.
+    # TODO make into a single object
     physician_code = models.CharField(max_length=30, blank=True)
     physician_code_created = models.DateTimeField(null=True, blank=True)
 
@@ -101,6 +102,13 @@ class Patient(models.Model):
             return False
 
         return True
+
+    def get_physician_code_expiration_time(self):
+        if not self.physician_code:
+            return "Physician code does not exist."
+
+        expiration = self.physician_code_created + timedelta(hours=1)
+        return expiration.strftime('%c')
 
     def get_all_patient_info(self):
         """Retrieves medications and conditions for that patient.

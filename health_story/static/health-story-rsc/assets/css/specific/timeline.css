@@ -1,34 +1,16 @@
-/* Fonts */
-@font-face {
-    font-family: 'product_sansregular';
-    src: url('../../fonts/product_sans_regular-webfont.woff2') format('woff2'),
-         url('../../fonts/product_sans_regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
 /* Timeline section */
 .timeline-content-self {
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
-h1 {
-    font-size: 50px;
-    font-family: product_sansregular, sans-serif;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 /* External timeline graphic */
 .main-timeline{
     display: inline-block;
-    padding: 5px 10px;
+    margin: 0 30px;
     position: relative;
     font-family: product_sansregular, sans-serif;
     text-align: left;
-
 }
 .main-timeline:before{
     content: "";
@@ -53,7 +35,7 @@ h1 {
     height: 50px;
     border-radius: 50%;
     border: 10px solid #303334;
-    background: #fe9505;
+    background: white;
     position: absolute;
     top: 50%;
     left: -20px;
@@ -79,7 +61,7 @@ h1 {
 .main-timeline .timeline-icon{
     display: block;
     font-size: 70px;
-    color: #fe9505;
+    color: #f1c40f;
     position: absolute;
     top: 50%;
     left: 13%;
@@ -90,7 +72,7 @@ h1 {
     width: 70%;
     float: right;
     padding: 20px;
-    background: #fe9505;
+    background: white;
     position: relative;
 }
 .main-timeline .title{
@@ -137,14 +119,14 @@ h1 {
     float: left;
 }
 .main-timeline .timeline:nth-child(2n):before,
-.main-timeline .timeline:nth-child(2n) .inner-content{ background: #ec407a; }
-.main-timeline .timeline:nth-child(2n) .timeline-icon{ color: #EC407A; }
+.main-timeline .timeline:nth-child(2n) .inner-content{ background: white; }
+.main-timeline .timeline:nth-child(2n) .timeline-icon{ color: #f1c40f; }
 .main-timeline .timeline:nth-child(3n):before,
-.main-timeline .timeline:nth-child(3n) .inner-content{ background: #25c6da; }
-.main-timeline .timeline:nth-child(3n) .timeline-icon{ color: #25c6da; }
+.main-timeline .timeline:nth-child(3n) .inner-content{ background: white; }
+.main-timeline .timeline:nth-child(3n) .timeline-icon{ color: #f1c40f; }
 .main-timeline .timeline:nth-child(4n):before,
-.main-timeline .timeline:nth-child(4n) .inner-content{ background: #41a4f5; }
-.main-timeline .timeline:nth-child(4n) .timeline-icon{ color: #41a4f5; }
+.main-timeline .timeline:nth-child(4n) .inner-content{ background: #f1c40f; }
+.main-timeline .timeline:nth-child(4n) .timeline-icon{ color: #f1c40f; }
 @media only screen and (max-width: 990px){
     .main-timeline .timeline-icon{
         font-size: 50px;

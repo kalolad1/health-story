@@ -1,9 +1,8 @@
-{% extends 'health_story/home-base.html' %}
+{% extends 'health_story/bases/home-base.html' %}
 
 {% block head %}
     {% load static %}
-{#    TODO Please refactor to a seperate or meerged css and base html. Please! #}
-    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/demographics.css' %}">
+    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/card-display.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -11,13 +10,13 @@
         <div class="card bg-light mb-3 override">
             <div class="card-body">
                 <h5 class="card-title">Weight</h5>
-                <p class="card-text override">{{ patient.weight.lb }} lb</p>
+                <p class="card-text">{{ patient.weight.lb }} lb</p>
             </div>
         </div>
         <div class="card bg-light mb-3 override">
             <div class="card-body">
                 <h5 class="card-title">Height</h5>
-                <p class="card-text override">{{ patient.get_height_formatted }}</p>
+                <p class="card-text">{{ patient.get_height_formatted }}</p>
             </div>
         </div>
     </div>

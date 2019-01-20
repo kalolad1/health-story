@@ -31,7 +31,7 @@ def login(request):
             if not Patient.is_user_registered(user.username):
                 return redirect('accounts/patient-registration')
 
-            return redirect('health_story/home')
+            return redirect('health_story/set_up')
         else:
             # Either the username or password was incorrect. Sends them back to the login page.
             return render(request, 'accounts/login.html', {'error': 'Username or password is incorrect.'})
@@ -102,7 +102,7 @@ def patient_registration(request):
         patient.race = race
         patient.save()
 
-        return redirect('health_story/home')
+        return redirect('health_story/set_up')
     else:
         return render(request, 'accounts/patient-registration.html')
 

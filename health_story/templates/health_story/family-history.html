@@ -1,26 +1,25 @@
-{% extends 'health_story/home-base.html' %}
+{% extends 'health_story/bases/home-base.html' %}
 
 {% block head %}
     {% load static %}
-    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/family-history.css'%}">
+    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/card-display.css'%}">
 {% endblock %}
 
 {% block content %}
-    <div class="family-history-content">
-        <h1 style="text-align: center">Family History</h1>
+    <div class="medical-history-content">
+        <h1>Family History</h1>
 
-        <div class="relative-list">
-            <ul class="list-group">
-                {% for relative in relatives %}
-                    <li class="list-group-item">
-                        {{ relative.full_name }}:
-
-                        {% for disease in relative.diseases.all %}
-                            {{ disease.name }},
-                        {% endfor %}
-                    </li>
-                {% endfor %}
-            </ul>
+        <div class="row">
+            {% for relative in relatives %}
+                <div class="card bg-light mb-3 override">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ relative.full_name }}</h5>
+                        <p class="card-text">
+                            {{ relative.get_formatted_list_of_conditions }}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

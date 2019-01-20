@@ -26,12 +26,6 @@ class Patient(models.Model):
     # Family history
     relatives = models.ManyToManyField('Relative')
 
-    # Medications
-    medications = models.ManyToManyField('Medication')
-
-    # Conditions
-    conditions = models.ManyToManyField('Condition')
-
     # The physician code expires in a short amount of time.
     physician_code = models.CharField(max_length=30, blank=True)
     physician_code_created = models.DateTimeField(null=True, blank=True)
@@ -108,6 +102,25 @@ class Patient(models.Model):
 
         return True
 
+    def get_all_patient_info(self):
+        """Retrieves medications and conditions for that patient.
+
+        Iterates through all of the patients health encounters and pulls
+        out the medications and conditions. Call this function when the user
+        logs in for the first time and store with cookie.
+
+        Returns:
+             A dictionary containing patient data.
+        """
+        # Retrieve all medications from all health encounters the patient had.
+        medications = []
+        conditions = []
+        for encounter in self.healthencounter_set.all():
+            medications.extend(encounter.medications.all())
+            conditions.extend(encounter.conditions.all())
+
+        return {'medications': medications, 'conditions': conditions}
+
     @staticmethod
     def is_user_registered(username):
         try:
@@ -126,11 +139,12 @@ class HealthEncounter(models.Model):
     date = models.DateField(default=timezone.now)
     location = models.CharField(max_length=100)
 
-    # TODO Make choices for this.
     type_of_encounter = models.CharField(max_length=100, choices=choices.TYPE_OF_HEALTH_ENCOUNTER)
 
-    # TODO Make more structured.
+    # The following fields comprise the physician clinical note
     description = models.CharField(max_length=100)
+    conditions = models.ManyToManyField('Condition')
+    medications = models.ManyToManyField('Medication')
 
     def __str__(self):
         """
@@ -162,7 +176,7 @@ class HealthEncounter(models.Model):
 
 class Relative(models.Model):
     full_name = models.CharField(max_length=100)
-    diseases = models.ManyToManyField('Disease')
+    conditions = models.ManyToManyField('Condition')
 
     def __str__(self):
         """
@@ -173,18 +187,12 @@ class Relative(models.Model):
         """
         return self.full_name
 
+    def get_formatted_list_of_conditions(self):
+        output = ""
+        for condition in self.conditions.all():
+            output += "{},".format(condition.name)
 
-class Disease(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        """
-        Returns a string representation of a Disease object.
-
-        Returns:
-             The diseases name.
-        """
-        return self.name
+        return output[:-1]
 
 
 class Medication(models.Model):
@@ -200,7 +208,6 @@ class Medication(models.Model):
         return self.name
 
 
-# TODO make relatives as conditions too.
 class Condition(models.Model):
     name = models.CharField(max_length=100)
 

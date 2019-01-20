@@ -1,34 +1,20 @@
-/* Fonts */
-@font-face {
-    font-family: 'product_sansregular';
-    src: url('../../fonts/product_sans_regular-webfont.woff2') format('woff2'),
-         url('../../fonts/product_sans_regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
 /* Timeline section */
 .timeline-content-self {
     padding-top: 20px;
     padding-bottom: 20px;
+    text-align: center;
+    background-color: grey;
 }
 
-h1 {
-    font-size: 50px;
-    font-family: product_sansregular, sans-serif;
-    text-align: center;
-    margin-bottom: 20px;
+.add-encounter-button-container {
+    margin: 20px 0 20px 0;
 }
 
 /* External timeline graphic */
 .main-timeline{
     display: inline-block;
-    padding: 5px 10px;
+    padding: 5px 0;
     position: relative;
-    font-family: product_sansregular, sans-serif;
-    text-align: left;
-
 }
 .main-timeline:before{
     content: "";
@@ -70,7 +56,7 @@ h1 {
 }
 .main-timeline .timeline-content{
     display: inline-block;
-    background: white;
+    background: #fff;
     border-radius: 15px;
     overflow: hidden;
     -webkit-clip-path: polygon(100% 0, 100% 100%, 7% 100%, 0 50%, 7% 0);
@@ -96,13 +82,13 @@ h1 {
 .main-timeline .title{
     font-size: 22px;
     font-weight: 600;
-    color: black;
+    color: #fff;
     text-transform: uppercase;
     margin: 0 0 5px 0;
 }
 .main-timeline .date{
-    font-size: 14px;
-    color: black;
+    font-size: 17px;
+    color: #fff;
     letter-spacing: 1px;
     margin: 0;
 }

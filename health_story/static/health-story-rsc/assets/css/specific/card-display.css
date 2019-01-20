@@ -1,0 +1,68 @@
+/* Fonts */
+@font-face {
+    font-family: 'product_sansbold';
+    src: url('../../fonts/product_sans_bold-webfont.woff2') format('woff2'),
+         url('../../fonts/product_sans_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'product_sansitalic';
+    src: url('../../fonts/product_sans_italic-webfont.woff2') format('woff2'),
+         url('../../fonts/product_sans_italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'product_sansregular';
+    src: url('../../fonts/product_sans_regular-webfont.woff2') format('woff2'),
+         url('../../fonts/product_sans_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+h1 {
+    font-family: product_sansbold, sans-serif;
+    text-align: center;
+}
+
+.row {
+    margin-left: 15px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.card,
+.bg-light,
+.mb-3,
+.override {
+    margin-right: 10px;
+    max-width: 100rem;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .1);
+    padding: 20px;
+}
+
+.card-text,
+.override {
+    color: black;
+    font-size: 30px;
+    font-family: product_sansregular, sans-serif;
+}
+
+h5, .card-title {
+    font-family: product_sansbold, sans-serif;
+    font-size: 35px;
+}
+
+
+/* Specifics */
+.medical-history-content {
+    margin: 10px;
+}

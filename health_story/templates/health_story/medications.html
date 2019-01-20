@@ -1,22 +1,22 @@
-{% extends 'health_story/home-base.html' %}
+{% extends 'health_story/bases/home-base.html' %}
 
 {% block head %}
     {% load static %}
-    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/family-history.css'%}">
+    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/card-display.css'%}">
 {% endblock %}
 
 {% block content %}
-    <div class="family-history-content">
-        <h1 style="text-align: center">Medications</h1>
+    <div class="medical-history-content">
+        <h1>Medications</h1>
 
-        <div class="relative-list">
-            <ul class="list-group">
-                {% for medication in medications %}
-                    <li class="list-group-item">
-                        {{ medication.name}}
-                    </li>
-                {% endfor %}
-            </ul>
+        <div class="row">
+            {% for medication in medications %}
+                <div class="card bg-light mb-3 override">
+                    <div class="card-body">
+                        <p class="card-text">{{ medication.name}}</p>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

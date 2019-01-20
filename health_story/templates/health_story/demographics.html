@@ -1,8 +1,8 @@
-{% extends 'health_story/home-base.html' %}
+{% extends 'health_story/bases/home-base.html' %}
 
 {% block head %}
     {% load static %}
-    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/demographics.css' %}">
+    <link rel="stylesheet" href="{% static 'health-story-rsc/assets/css/specific/card-display.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -10,13 +10,13 @@
         <div class="card bg-light mb-3 override">
             <div class="card-body">
                 <h5 class="card-title">Username</h5>
-                <p class="card-text override">{{ patient.username }}</p>
+                <p class="card-text">{{ patient.username }}</p>
             </div>
         </div>
         <div class="card bg-light mb-3 override">
             <div class="card-body">
                 <h5 class="card-title">Name</h5>
-                <p class="card-text override">{{ patient.get_full_name }}</p>
+                <p class="card-text">{{ patient.get_full_name }}</p>
             </div>
         </div>
         <div class="card bg-light mb-3 override">

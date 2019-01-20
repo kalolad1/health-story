@@ -1,9 +1,12 @@
 from django.contrib import admin
-from .models import Patient, HealthEncounter, Relative, Disease
+from . import models
 
 # Register your models here.
-admin.site.register(Patient)
-admin.site.register(HealthEncounter)
-admin.site.register(Relative)
-admin.site.register(Disease)
+admin.site.register(models.Patient)
+admin.site.register(models.HealthEncounter)
+admin.site.register(models.Relative)
+admin.site.register(models.Disease)
+admin.site.register(models.Medication)
+admin.site.register(models.Condition)
+
 

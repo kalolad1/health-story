@@ -1,24 +1,20 @@
-from django.shortcuts import render, redirect
-from .models import Patient, HealthEncounter, Relative, Disease
+from django.shortcuts import render
+from .models import Patient, HealthEncounter
 from django.contrib.auth.decorators import login_required
-from .helper import choices, constants
+from datetime import datetime
+import random
+import string
 
 
 # Main pages.
 @login_required
-def home(request):
-    patient = Patient.objects.get(username=request.user.username)
-
+def demographics(request):
     # Sets the patient_id to be used on every other page.
     # TODO store actually patient object, if possible, not id, to avoid
     # TODO redundant queries.
+    patient = Patient.objects.get(username=request.user.username)
     request.session['patient_id'] = patient.id
-    return render(request, 'health_story/home.html', {'patient': patient})
 
-
-@login_required
-def demographics(request):
-    patient = Patient.objects.get(id=request.session['patient_id'])
     return render(request, 'health_story/demographics.html', {'patient': patient})
 
 
@@ -46,32 +42,43 @@ def family_history(request):
                                                                 'relatives': relatives})
 
 
-# Add or modify pages.
-def add_health_encounter(request):
+@login_required
+def medications(request):
     patient = Patient.objects.get(id=request.session['patient_id'])
-    type_options = [i[1] for i in choices.TYPE_OF_HEALTH_ENCOUNTER]
+    medications = patient.medications.all()
+    return render(request, 'health_story/medications.html', {'patient': patient,
+                                                             'medications': medications})
 
-    if request.method == 'POST':
-        try:
-            first_name = request.POST['first-name']
-            last_name = request.POST['last-name']
-            location = request.POST['location']
-            type_of_encounter = request.POST['type-of-encounter'].lower()
-            description = request.POST['description']
 
-            health_encounter = HealthEncounter()
-            health_encounter.patient = patient
-            health_encounter.physician = "{fn} {ln}".format(fn=first_name, ln=last_name)
-            health_encounter.location = location
-            health_encounter.type_of_encounter = type_of_encounter
-            health_encounter.description = description
-            health_encounter.save()
-            return redirect('health_story/timeline')
-        except KeyError:
-            error = 'Please enter complete fields before adding!'
-            return render(request, 'health_story/modify_views/add-health-encounter.html', {'patient': patient,
-                                                                                           'type_options': type_options,
-                                                                                           'error': error})
-    else:
-        return render(request, 'health_story/modify_views/add-health-encounter.html', {'patient': patient,
-                                                                                       'type_options': type_options})
+@login_required
+def conditions(request):
+    patient = Patient.objects.get(id=request.session['patient_id'])
+    conditions = patient.conditions.all()
+    return render(request, 'health_story/conditions.html', {'patient': patient,
+                                                             'conditions': conditions})
+
+
+@login_required
+def generate_physician_key(request):
+    """Generates a random 8 digit code for the physician to enter.
+    The code expires within an hour of creation. A alphanumeric 8
+    digit code has 2.8211099e+12 combinations and is extremely robust
+    against brute force hacking attempts.
+
+    Args:
+        request: HttpRequest object
+
+    Returns:
+        HttpResponse object displaying code to the user.
+    """
+    code_length = 8
+    patient = Patient.objects.get(id=request.session['patient_id'])
+    patient.physician_code = ''.join(random.choices(string.ascii_letters + string.digits, k=code_length))
+    patient.physician_code_created = datetime.now()
+
+    return render(request, 'health_story/secondary/generate-physician-key.html',
+                  {'patient': patient})
+
+
+
+

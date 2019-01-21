@@ -2,10 +2,17 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.models import User
 from health_story.models import Patient
+from measurement.measures import Weight, Distance
+from .models import AuthKey
 
 
-def login(request):
-    """Handles login page functionality.
+def login_page(request):
+    # Displays login page.
+    return render(request, 'accounts/login.html')
+
+
+def login_patient(request):
+    """Handles login page functionality for a patient.
 
     Responsible for two separate things: to show the login page, and to handle a
     request to login.
@@ -36,8 +43,48 @@ def login(request):
             # Either the username or password was incorrect. Sends them back to the login page.
             return render(request, 'accounts/login.html', {'error': 'Username or password is incorrect.'})
 
-    # Displays login page.
-    return render(request, 'accounts/login.html')
+
+def login_physician(request):
+    """Handles login page functionality for a physician.
+
+    Responsible for two separate things: to show the login page, and to handle a
+    request to login.
+
+    Args:
+        request: A HttpRequest object.
+
+    Returns:
+        A redirect to the health story home page, login screen for the first time, or back to
+        the login screen if user entered invalid credentials.
+    """
+    # User submits login credentials.
+    if request.method == 'POST':
+        # TODO add a username too
+        physician_key = request.POST['physician-key']
+        auth_key = request.POST['authentication-key']
+
+        print(physician_key)
+        print(auth_key)
+        try:
+            AuthKey.objects.get(key=auth_key)
+
+            patient = None
+            for pat in Patient.objects.all():
+                if pat.is_physician_code_valid(physician_key):
+                    patient = pat
+
+            print(patient)
+            if not patient:
+                raise KeyError
+        except KeyError:
+            error = "You entered an incorrect key."
+            return render(request, 'accounts/login.html', {'error': error})
+
+        patient.admin_mode = True
+        patient.save()
+        user = User.objects.get(username=patient.username)
+        auth.login(request, user)
+        return redirect('health_story/set_up')
 
 
 def sign_up(request):
@@ -87,6 +134,9 @@ def patient_registration(request):
             email = request.POST['email']
             sex = request.POST['sex']
             race = request.POST['race']
+            weight = request.POST['weight']
+            height = request.POST['height']
+
         # User did not fill out all fields.
         except KeyError:
             error = "Please fill out all the fields!"
@@ -100,6 +150,8 @@ def patient_registration(request):
         patient.email = email
         patient.sex = sex
         patient.race = race
+        patient.weight = Weight(lb=weight)
+        patient.height = Distance(inches=height)
         patient.save()
 
         return redirect('health_story/set_up')
@@ -111,6 +163,7 @@ def logout(request):
     """Handles a logout request.
 
     Responsible for logging the user out and bringing them to the landing page.
+    It also sets the admin_mode to false.
 
     Args:
         request: A HttpRequest object.
@@ -118,6 +171,9 @@ def logout(request):
     Returns:
         A redirect to the landing page.
     """
+    patient = Patient.objects.get(username=request.user.username)
+    patient.admin_mode = False
+    patient.save()
     auth.logout(request)
     return redirect('landing-page')
 

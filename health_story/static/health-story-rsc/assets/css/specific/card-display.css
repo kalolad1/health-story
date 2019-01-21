@@ -57,9 +57,18 @@ h1 {
     font-family: product_sansregular, sans-serif;
 }
 
+input, .card-text {
+    max-width: 50rem;
+}
+
 h5, .card-title {
     font-family: product_sansbold, sans-serif;
     font-size: 35px;
+}
+
+.edit-button-container {
+    margin: 10px;
+    text-align: center;
 }
 
 

@@ -60,6 +60,22 @@
             </div>
         </div>
     </div>
+    <div class="form-row">
+        <div class="name">Conditions (comma separated)</div>
+        <div class="value">
+            <div class="input-group">
+                <input class="input--style-5" type="text" name="conditions">
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="name">Medications (comma separated)</div>
+        <div class="value">
+            <div class="input-group">
+                <input class="input--style-5" type="text" name="medications">
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block action_type %}
@@ -67,7 +83,7 @@
 {% endblock %}
 
 {% block return_button %}
-<form method="GET" action="{% url 'health_story/timeline' %}">
-    <button class="btn btn--radius-2 btn--green" type="submit">Go Back</button>
-</form>
+    <form method="GET" action="{% url 'health_story/timeline' %}">
+        <button class="btn btn--radius-2 btn--green" type="submit">Go Back</button>
+    </form>
 {% endblock %}

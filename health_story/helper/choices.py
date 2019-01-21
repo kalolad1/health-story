@@ -12,6 +12,27 @@ TYPE_OF_HEALTH_ENCOUNTER = (
     (EMERGENCY_ROOM, 'Emergency Room'),
 )
 
+# Type of relationship to patient
+MOTHER = 'mother'
+FATHER = 'father'
+BROTHER = 'brother'
+SISTER = 'sister'
+PATERNAL_GRANDFATHER = 'paternal grandfather'
+MATERNAL_GRANDFATHER = 'maternal grandfather'
+PATERNAL_GRANDMOTHER = 'paternal grandmother'
+MATERNAL_GRANDMOTHER = 'maternal grandmother'
+
+TYPE_OF_RELATIONSHIP = (
+    (MOTHER, 'Mother'),
+    (FATHER, 'Father'),
+    (BROTHER, 'Brother'),
+    (SISTER, 'Sister'),
+    (PATERNAL_GRANDFATHER, 'Paternal Grandfather'),
+    (MATERNAL_GRANDFATHER, 'Maternal Grandfather'),
+    (PATERNAL_GRANDMOTHER, 'Paternal Grandmother'),
+    (MATERNAL_GRANDMOTHER, 'Maternal Grandmother'),
+)
+
 # Dictionary of health encounter types mapped to their Font Awesome icons (used in the
 # timeline of the patient story).
 HE_TO_ICON = {

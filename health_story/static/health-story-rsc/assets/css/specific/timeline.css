@@ -125,7 +125,7 @@
 .main-timeline .timeline:nth-child(3n) .inner-content{ background: white; }
 .main-timeline .timeline:nth-child(3n) .timeline-icon{ color: #f1c40f; }
 .main-timeline .timeline:nth-child(4n):before,
-.main-timeline .timeline:nth-child(4n) .inner-content{ background: #f1c40f; }
+.main-timeline .timeline:nth-child(4n) .inner-content{ background: white; }
 .main-timeline .timeline:nth-child(4n) .timeline-icon{ color: #f1c40f; }
 @media only screen and (max-width: 990px){
     .main-timeline .timeline-icon{

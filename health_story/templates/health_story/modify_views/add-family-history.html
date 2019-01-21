@@ -1,0 +1,54 @@
+{% extends 'health_story/modify_views/../bases/modify-views-base.html' %}
+
+{% block head %}
+    <title>Add a relative to your family history</title>
+{% endblock %}
+
+{% block title %}
+    Add a Relative
+{% endblock %}
+
+{% block content %}
+    <div class="form-row">
+        <div class="name">Full name</div>
+        <div class="value">
+            <div class="input-group">
+                <input class="input--style-5" type="text" name="full-name">
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="name">Type of relationship</div>
+        <div class="value">
+            <div class="input-group">
+                <div class="rs-select2 js-select-simple select--no-search">
+                    <select name="type-of-relationship">
+                        <option disabled="disabled" selected="selected">Choose option</option>
+                        {% for option in type_options %}
+                            <option>{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="select-dropdown"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="name">Conditions (comma separated)</div>
+        <div class="value">
+            <div class="input-group">
+                <input class="input--style-5" type="text" name="conditions">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block action_type %}
+    Add
+{% endblock %}
+
+{% block return_button %}
+    <form method="GET" action="{% url 'health_story/family_history' %}">
+        <button class="btn btn--radius-2 btn--green" type="submit">Go Back</button>
+    </form>
+{% endblock %}

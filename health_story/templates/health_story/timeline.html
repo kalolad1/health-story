@@ -10,6 +10,15 @@
     <div class="content-container">
         <h1>Timeline</h1>
 
+        <form method="POST" action="{% url 'health_story/add_health_encounter' %}">
+        {% csrf_token %}
+            {% if patient.admin_mode %}
+                <div class="edit-button-container">
+                    <input class="btn btn-success override" type="submit" value="Add">
+                </div>
+            {% endif %}
+        </form>
+
         {% if not health_encounters %}
             <div class="row">
                 <div class="card bg-light mb-3 override">
@@ -35,7 +44,7 @@
                                 {{ encounter.date_formatted }}
                             </p>
                             <p class="description">
-                                {{ encounter.description }}
+                                {{ encounter.formatted_description }}
                             </p>
                         </div>
                     </a>

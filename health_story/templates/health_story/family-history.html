@@ -9,6 +9,15 @@
     <div class="content-container">
         <h1>Family History</h1>
 
+        <form method="POST" action="{% url 'health_story/add_family_history' %}">
+        {% csrf_token %}
+            {% if patient.admin_mode %}
+                <div class="edit-button-container">
+                    <input class="btn btn-success override" type="submit" value="Add">
+                </div>
+            {% endif %}
+        </form>
+
         <div class="row">
             {% if not relatives %}
                 <div class="card bg-light mb-3 override">
@@ -23,7 +32,7 @@
             {% for relative in relatives %}
                 <div class="card bg-light mb-3 override">
                     <div class="card-body">
-                        <h5 class="card-title">{{ relative.full_name }}</h5>
+                        <h5 class="card-title">{{ relative.full_name }} ({{ relative.type_of_relationship }})</h5>
                         <p class="card-text">
                             {{ relative.get_formatted_list_of_conditions }}
                         </p>

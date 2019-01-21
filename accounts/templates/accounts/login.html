@@ -2,32 +2,57 @@
 {% load static %}
 
 {% block form %}
-<form class="login100-form validate-form" method="POST" action="{% url 'accounts/login' %}">
-    {% csrf_token %}
-    <span class="login100-form-title p-b-43">
-        Login
-    </span>
+    <form class="login100-form" method="POST" action="{% url 'accounts/login-patient' %}">
+        {% csrf_token %}
+        <span class="login100-form-title p-t-20 p-b-10">
+            Patient
+        </span>
 
-    <div class="wrap-input100 rs1 validate-input" data-validate="Username is required">
-        <input class="input100" type="text" name="username">
-        <span class="label-input100">Username</span>
-    </div>
+        <div class="wrap-input100 rs1 validate-input" data-validate="Username is required">
+            <input class="input100" type="text" name="username">
+            <span class="label-input100">Username</span>
+        </div>
 
-    <div class="wrap-input100 rs2 validate-input" data-validate="Password is required">
-        <input class="input100" type="password" name="pass">
-        <span class="label-input100">Password</span>
-    </div>
+        <div class="wrap-input100 rs2 validate-input" data-validate="Password is required">
+            <input class="input100" type="password" name="pass">
+            <span class="label-input100">Password</span>
+        </div>
 
-    <div class="container-login100-form-btn">
-        <button class="login100-form-btn">
-            Sign in
-        </button>
-    </div>
+        <div class="container-login100-form-btn">
+            <button class="login100-form-btn">
+                Sign in
+            </button>
+        </div>
+    </form>
 
-    <div class="text-center w-full p-t-23">
-        <a href="{% url 'accounts/sign-up' %}" class="txt1">
-            Sign up
-        </a>
-    </div>
-</form>
+    <form class="login100-form" method="POST" action="{% url 'accounts/login-physician' %}">
+        {% csrf_token %}
+        <span class="login100-form-title p-t-30 p-b-10">
+            Physician
+        </span>
+
+        <div class="wrap-input100 rs1 validate-input" data-validate="Username is required">
+            <input class="input100" type="password" name="physician-key">
+            <span class="label-input100">Physician Key</span>
+        </div>
+
+        <div class="wrap-input100 rs2 validate-input" data-validate="Password is required">
+            <input class="input100" type="password" name="authentication-key">
+            <span class="label-input100">Authentication Key</span>
+        </div>
+
+        <div class="container-login100-form-btn">
+            <button class="login100-form-btn">
+                Sign in
+            </button>
+        </div>
+
+        <div class="text-center w-full p-t-23">
+            <a href="{% url 'accounts/sign-up' %}" class="txt1">
+                Sign up
+            </a>
+        </div>
+    </form>
+
+
 {% endblock %}

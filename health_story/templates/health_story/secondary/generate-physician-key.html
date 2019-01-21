@@ -9,11 +9,10 @@
     <div class="content-container">
         <h1>Your Physician Key</h1>
 
-
         <div style="max-width: 40rem; margin: 10px auto" class="card bg-light mb-3 override">
             <div class="card-body">
-                <h5 class="card-title">Expires: {{ patient.get_physician_code_expiration_time }}</h5>
-                <p class="card-text">{{ patient.physician_code }}</p>
+                <h5 class="card-title">{{ patient.physician_code }}</h5>
+                <p class="card-text">Expires {{ patient.get_physician_code_expiration_time }}</p>
             </div>
         </div>
     </div>

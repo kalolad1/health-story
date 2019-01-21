@@ -9,19 +9,31 @@
     <div class="content-container">
         <h1>Vitals</h1>
 
-        <div class="row">
-            <div class="card bg-light mb-3 override">
-                <div class="card-body">
-                    <h5 class="card-title">Weight</h5>
-                    <p class="card-text">{{ patient.weight.lb }} lb</p>
-                </div>
+        <form method="POST" action="{% url 'health_story/edit_patient_info' %}">
+            {% csrf_token %}
+
+            {% if patient.admin_mode %}
+{#                <div class="edit-button-container">#}
+{#                    <input class="btn btn-success override" type="submit" value="Save">#}
+{#                </div>#}
+                <input type="hidden" name="origin" value="vitals">
+            {% endif %}
+
+
+            <div class="row">
+                {% for data in ui_info %}
+                    <div class="card bg-light mb-3 override">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ data.0 }}</h5>
+{#                            {% if patient.admin_mode %}#}
+{#                                <input type="text" name="{{ data.0 }}" value="{{ data.1 }}">#}
+{#                            {% else %}#}
+                                <p class="card-text">{{ data.1 }}</p>
+{#                            {% endif %}#}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-            <div class="card bg-light mb-3 override">
-                <div class="card-body">
-                    <h5 class="card-title">Height</h5>
-                    <p class="card-text">{{ patient.get_height_formatted }}</p>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 {% endblock %}

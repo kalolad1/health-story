@@ -9,49 +9,48 @@
     <div class="content-container">
         <h1>Demographics</h1>
 
-        <div class="row">
-            <div class="card bg-light mb-3 override">
-                <div class="card-body">
-                    <h5 class="card-title">Username</h5>
-                    <p class="card-text">{{ patient.username }}</p>
+        <form method="POST" action="{% url 'health_story/edit_patient_info' %}">
+            {% csrf_token %}
+            {% if patient.admin_mode %}
+                <div class="edit-button-container">
+                    <input class="btn btn-success override" type="submit" value="Save">
                 </div>
-            </div>
-            <div class="card bg-light mb-3 override">
-                <div class="card-body">
-                    <h5 class="card-title">Name</h5>
-                    <p class="card-text">{{ patient.get_full_name }}</p>
+                <input type="hidden" name="origin" value="demographics">
+            {% endif %}
+
+            <div class="row">
+                <div class="card bg-light mb-3 override">
+                    <div class="card-body">
+                        <h5 class="card-title">Username</h5>
+                        <p class="card-text">{{ patient.username }}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="card bg-light mb-3 override">
-                <div class="card-body">
-                    <h5 class="card-title">Date of Birth</h5>
-                    <p class="card-text">{{ patient.get_date_of_birth_formatted }}</p>
+                <div class="card bg-light mb-3 override">
+                    <div class="card-body">
+                        <h5 class="card-title">Name</h5>
+                        <p class="card-text">{{ patient.get_full_name }}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="card bg-light mb-3 override">
-                <div class="card-body">
-                    <h5 class="card-title">Age</h5>
-                    <p class="card-text">{{ patient.get_age }}</p>
+                <div class="card bg-light mb-3 override">
+                    <div class="card-body">
+                        <h5 class="card-title">Age</h5>
+                        <p class="card-text">{{ patient.get_age }}</p>
+                    </div>
                 </div>
+
+                {% for data in ui_info %}
+                    <div class="card bg-light mb-3 override">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ data.0 }}</h5>
+                            {% if patient.admin_mode %}
+                                <input type="text" name="{{ data.0 }}" value="{{ data.1 }}">
+                            {% else %}
+                                <p class="card-text">{{ data.1 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-            <div class="card bg-light mb-3 override">
-                <div class="card-body">
-                    <h5 class="card-title">Sex</h5>
-                    <p class="card-text">{{ patient.sex }}</p>
-                </div>
-            </div>
-            <div class="card bg-light mb-3 override">
-                <div class="card-body">
-                    <h5 class="card-title">Race</h5>
-                    <p class="card-text">{{ patient.race }}</p>
-                </div>
-            </div>
-            <div class="card bg-light mb-3 override">
-                <div class="card-body">
-                    <h5 class="card-title">Email</h5>
-                    <p class="card-text">{{ patient.email }}</p>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 {% endblock %}

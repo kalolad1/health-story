@@ -3,6 +3,7 @@ from datetime import date, datetime, timedelta
 from django.utils import timezone
 from measurement.measures import Weight, Distance
 from django_measurement.models import MeasurementField
+from .helper.constants import MPConstants
 from .helper import choices
 
 
@@ -30,6 +31,10 @@ class Patient(models.Model):
     # TODO make into a single object
     physician_code = models.CharField(max_length=30, blank=True)
     physician_code_created = models.DateTimeField(null=True, blank=True)
+
+    # Admin mode is set to true when a physician logs in. This allows the physician
+    # to modify information or add new health encounters.
+    admin_mode = models.BooleanField(default=False)
 
     def __str__(self):
         """Returns the string representation of the patient object.
@@ -84,7 +89,11 @@ class Patient(models.Model):
         except AttributeError:
             feet = -1
             inches = -1
-        return "{feet} feet {inches} inches".format(feet=feet, inches=inches)
+
+        if inches != 0:
+            return "{feet} ft {inches} inches".format(feet=feet, inches=inches)
+        else:
+            return "{feet} ft".format(feet=feet)
 
     def is_physician_code_valid(self, physician_code):
         """Checks if a physician code is valid to access this patients account.
@@ -97,7 +106,7 @@ class Patient(models.Model):
             return False
 
         expiration_time = 3600
-        time_elapsed = self.physician_code_created - datetime.now()
+        time_elapsed = self.physician_code_created - datetime.now(timezone.utc)
         if not self.physician_code_created or time_elapsed.total_seconds() > expiration_time:
             return False
 
@@ -129,6 +138,27 @@ class Patient(models.Model):
 
         return {'medications': medications, 'conditions': conditions}
 
+    def get_info_for_ui(self, page):
+        """This function organizes patient information into an array to be used in the ui.
+
+        Collects information and stores it into an array of tuples.
+        The first tuple value is the type of information and the second
+        is its value. Tuples instead of dicts were chosen to retain ordering (useful
+        for UI purposes).
+
+        Returns:
+             Array of tuples containing patient data and title.
+        """
+        data = []
+        if page == MPConstants.DEMOGRAPHICS:
+            data = [('Date of Birth', self.get_date_of_birth_formatted()),
+                    ('Sex', self.sex), ('Race', self.race), ('Email', self.email)]
+
+        elif page == MPConstants.VITALS:
+            data = [('Weight (lb)', self.weight.lb), ('Height (m)', self.height)]
+
+        return data
+
     @staticmethod
     def is_user_registered(username):
         try:
@@ -155,8 +185,7 @@ class HealthEncounter(models.Model):
     medications = models.ManyToManyField('Medication')
 
     def __str__(self):
-        """
-        Returns a string representation of a HealthEncounter object.
+        """Returns a string representation of a HealthEncounter object.
 
         Returns:
              The patient name, physician name, and date.
@@ -164,26 +193,51 @@ class HealthEncounter(models.Model):
         return self.patient.get_full_name() + " with " + self.physician + " on " + self.date_formatted()
 
     def date_formatted(self):
-        """
-        Formats the date of the Health Encounter in a readable way.
+        """Formats the date of the Health Encounter in a readable way.
 
         Returns:
             The date of the Health Encounter.
         """
-        return self.date.strftime("%b %e %Y")
+        return self.date.strftime("%b %d %Y")
 
     def he_type_fa_icon(self):
-        """
-        Returns the fa icon name according to the health encounter type.
+        """Returns the fa icon name according to the health encounter type.
 
         Returns:
             Fa icon name.
         """
         return choices.HE_TO_ICON[self.type_of_encounter]
 
+    def formatted_description(self):
+        """Returns a formatted description including conditions and medications.
+
+        Returns:
+            A formatted description string.
+        """
+        description = ""
+        description += "Conditions identified: {}.\n".format(self.get_comma_separated_string_from_query_set(
+            self.conditions.all()
+        ))
+        description += "Medications prescribed: {}.\n".format(self.get_comma_separated_string_from_query_set(
+            self.medications.all()
+        ))
+        description += self.description
+        return description
+
+    @staticmethod
+    def get_comma_separated_string_from_query_set(query_set):
+        query_string = ""
+        for query in query_set:
+            query_string += query.name
+
+            if query != query_set.last():
+                query_string += ", "
+        return query_string
+
 
 class Relative(models.Model):
     full_name = models.CharField(max_length=100)
+    type_of_relationship = models.CharField(max_length=100, choices=choices.TYPE_OF_RELATIONSHIP, blank=True)
     conditions = models.ManyToManyField('Condition')
 
     def __str__(self):
@@ -198,9 +252,9 @@ class Relative(models.Model):
     def get_formatted_list_of_conditions(self):
         output = ""
         for condition in self.conditions.all():
-            output += "{},".format(condition.name)
+            output += "{}, ".format(condition.name)
 
-        return output[:-1]
+        return output[:-2]
 
 
 class Medication(models.Model):

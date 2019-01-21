@@ -99,7 +99,7 @@ def generate_physician_key(request):
     """
     code_length = 8
     patient = Patient.objects.get(id=request.session[PAConstants.PATIENT_ID])
-    patient.physician_code = ''.join(random.choices(string.ascii_letters + string.digits, k=code_length))
+    patient.physician_code = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(code_length))
     patient.physician_code_created = datetime.now()
     patient.save()
 

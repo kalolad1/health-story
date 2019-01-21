@@ -155,7 +155,7 @@ class Patient(models.Model):
                     ('Sex', self.sex), ('Race', self.race), ('Email', self.email)]
 
         elif page == MPConstants.VITALS:
-            data = [('Weight (lb)', self.weight.lb), ('Height (m)', self.height)]
+            data = [('Weight (lb)', self.weight.lb), ('Height (m)', self.get_height_formatted())]
 
         return data
 

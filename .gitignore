@@ -7,5 +7,5 @@ venv/
 # Mac OS
 .DS_Store
 
-# Local settings for deployment
+# Local settings for deployment environment
 local_settings.py

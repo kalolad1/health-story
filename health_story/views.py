@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Patient, HealthEncounter, Relative
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from datetime import datetime, date
+from datetime import datetime
 from .helper.constants import MPConstants, PAConstants
 from .helper import choices
 import random
@@ -20,8 +20,12 @@ def set_up(request, should_redirect=True):
     info = patient.get_all_patient_info()
 
     request.session[PAConstants.PATIENT_ID] = patient.id
-    request.session[MPConstants.MEDICATIONS] = serializers.serialize('json', info[MPConstants.MEDICATIONS])
-    request.session[MPConstants.CONDITIONS] = serializers.serialize('json', info[MPConstants.CONDITIONS])
+    request.session[MPConstants.MEDICATIONS] = serializers.serialize(
+        'json', info[MPConstants.MEDICATIONS]
+    )
+    request.session[MPConstants.CONDITIONS] = serializers.serialize(
+        'json', info[MPConstants.CONDITIONS]
+    )
 
     if should_redirect:
         return redirect('health_story/demographics')
@@ -32,8 +36,8 @@ def set_up(request, should_redirect=True):
 def demographics(request):
     patient = Patient.objects.get(id=request.session[PAConstants.PATIENT_ID])
     ui_info = patient.get_info_for_ui(MPConstants.DEMOGRAPHICS)
-    return render(request, 'health_story/demographics.html', {'patient': patient,
-                                                              'ui_info': ui_info})
+    return render(request, 'health_story/demographics.html',
+                  {'patient': patient, 'ui_info': ui_info})
 
 
 @login_required
@@ -49,8 +53,8 @@ def timeline(request):
     patient = Patient.objects.get(id=request.session[PAConstants.PATIENT_ID])
     health_encounters = HealthEncounter.objects.filter(patient=patient)
 
-    return render(request, 'health_story/timeline.html', {'patient': patient,
-                                                          'health_encounters': health_encounters})
+    return render(request, 'health_story/timeline.html',
+                  {'patient': patient, 'health_encounters': health_encounters})
 
 
 @login_required
@@ -58,15 +62,17 @@ def family_history(request):
     patient = Patient.objects.get(id=request.session[PAConstants.PATIENT_ID])
     relatives = patient.relatives.all()
 
-    return render(request, 'health_story/family-history.html', {'patient': patient,
-                                                                'relatives': relatives})
+    return render(request, 'health_story/family-history.html',
+                  {'patient': patient, 'relatives': relatives})
 
 
 @login_required
 def display_medications(request):
     patient = Patient.objects.get(id=request.session[PAConstants.PATIENT_ID])
 
-    deserialized_objects = serializers.deserialize('json', request.session[MPConstants.MEDICATIONS])
+    deserialized_objects = serializers.deserialize(
+        'json', request.session[MPConstants.MEDICATIONS]
+    )
     medications = [medications.object for medications in deserialized_objects]
 
     return render(request, 'health_story/medications.html',
@@ -77,7 +83,9 @@ def display_medications(request):
 def display_conditions(request):
     patient = Patient.objects.get(id=request.session[PAConstants.PATIENT_ID])
 
-    deserialized_objects = serializers.deserialize('json', request.session[MPConstants.CONDITIONS])
+    deserialized_objects = serializers.deserialize(
+        'json', request.session[MPConstants.CONDITIONS]
+    )
     conditions = [conditions.object for conditions in deserialized_objects]
 
     return render(request, 'health_story/conditions.html',
@@ -99,7 +107,11 @@ def generate_physician_key(request):
     """
     code_length = 8
     patient = Patient.objects.get(id=request.session[PAConstants.PATIENT_ID])
-    patient.physician_code = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(code_length))
+    patient.physician_code = ''.join(
+        random.choice(
+            string.ascii_letters + string.digits
+        ) for _ in range(code_length)
+    )
     patient.physician_code_created = datetime.now()
     patient.save()
 
@@ -114,8 +126,8 @@ def edit_patient_info(request):
     if request.method == 'POST':
         # Demographic info
         if request.POST['origin'] == MPConstants.DEMOGRAPHICS:
-            # TODO put placeholder to indicate correct format
-            patient.date_of_birth = datetime.strptime(request.POST['Date of Birth'], '%b %d %Y').date()
+            patient.date_of_birth = datetime.strptime(
+                request.POST['Date of Birth'], '%b %d %Y').date()
             patient.email = request.POST['Email']
             patient.race = request.POST['Race']
             patient.sex = request.POST['Sex']
@@ -123,7 +135,7 @@ def edit_patient_info(request):
             return redirect('health_story/demographics')
 
 
-# Add or modify pages.
+# Add or modify pages
 @login_required
 def add_health_encounter(request):
     patient = Patient.objects.get(id=request.session['patient_id'])
@@ -141,7 +153,8 @@ def add_health_encounter(request):
 
             health_encounter = HealthEncounter()
             health_encounter.patient = patient
-            health_encounter.physician = "{fn} {ln}".format(fn=first_name, ln=last_name)
+            health_encounter.physician = "{fn} {ln}".format(fn=first_name,
+                                                            ln=last_name)
             health_encounter.location = location
             health_encounter.type_of_encounter = type_of_encounter
             health_encounter.description = description
@@ -158,12 +171,14 @@ def add_health_encounter(request):
             return redirect('health_story/timeline')
         except KeyError:
             error = 'Please enter complete fields before adding!'
-            return render(request, 'health_story/modify_views/add-health-encounter.html', {'patient': patient,
-                                                                                           'type_options': type_options,
-                                                                                           'error': error})
+            return render(request,
+                          'health_story/modify_views/add-health-encounter.html',
+                          {'patient': patient, 'type_options': type_options,
+                           'error': error})
 
-    return render(request, 'health_story/modify_views/add-health-encounter.html', {'patient': patient,
-                                                                                   'type_options': type_options})
+    return render(request,
+                  'health_story/modify_views/add-health-encounter.html',
+                  {'patient': patient, 'type_options': type_options})
 
 
 @login_required
@@ -189,12 +204,13 @@ def add_family_history(request):
             return redirect('health_story/family_history')
         except KeyError:
             error = "Please enter all fields!"
-            return render(request, 'health_story/modify_views/add-family-history.html', {'patient': patient,
-                                                                                         'type_options': type_options,
-                                                                                         'error': error})
+            return render(request,
+                          'health_story/modify_views/add-family-history.html',
+                          {'patient': patient, 'type_options': type_options,
+                           'error': error})
 
-    return render(request, 'health_story/modify_views/add-family-history.html', {'patient': patient,
-                                                                                 'type_options': type_options})
+    return render(request, 'health_story/modify_views/add-family-history.html',
+                  {'patient': patient, 'type_options': type_options})
 
 
 

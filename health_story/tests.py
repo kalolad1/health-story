@@ -4,6 +4,7 @@ from datetime import date, datetime
 
 
 class PatientTestCase(TestCase):
+
     def setUp(self):
         Patient.objects.create(first_name="Rishi", last_name="Konkesa",
                                username="rishinator", date_of_birth=date.min)

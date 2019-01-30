@@ -1,13 +1,13 @@
-from django.shortcuts import render, redirect
-from django.contrib import auth
+from .models import AuthKey
 from django.contrib.auth.models import User
+from django.contrib import auth
+from django.shortcuts import render, redirect
 from health_story.models import Patient
 from measurement.measures import Weight, Distance
-from .models import AuthKey
 
 
 def login_page(request):
-    # Displays login page.
+    """Displays the login page."""
     return render(request, 'accounts/login.html')
 
 
@@ -21,8 +21,8 @@ def login_patient(request):
         request: A HttpRequest object.
 
     Returns:
-        A redirect to the health story home page, login screen for the first time, or back to
-        the login screen if user entered invalid credentials.
+        A redirect to the health story home page, login screen for the first
+        time, or back to the login screen if user entered invalid credentials.
     """
     # User submits login credentials.
     if request.method == 'POST':
@@ -40,8 +40,10 @@ def login_patient(request):
 
             return redirect('health_story/set_up')
         else:
-            # Either the username or password was incorrect. Sends them back to the login page.
-            return render(request, 'accounts/login.html', {'error': 'Username or password is incorrect.'})
+            # Either the username or password was incorrect. Sends them back to
+            # the login page.
+            return render(request, 'accounts/login.html',
+                          {'error': 'Username or password is incorrect.'})
 
 
 def login_physician(request):
@@ -54,8 +56,8 @@ def login_physician(request):
         request: A HttpRequest object.
 
     Returns:
-        A redirect to the health story home page, login screen for the first time, or back to
-        the login screen if user entered invalid credentials.
+        A redirect to the health story home page, login screen for the first
+        time, or back to the login screen if user entered invalid credentials.
     """
     # User submits login credentials.
     if request.method == 'POST':
@@ -63,8 +65,6 @@ def login_physician(request):
         physician_key = request.POST['physician-key']
         auth_key = request.POST['authentication-key']
 
-        print(physician_key)
-        print(auth_key)
         try:
             AuthKey.objects.get(key=auth_key)
 
@@ -73,7 +73,6 @@ def login_physician(request):
                 if pat.is_physician_code_valid(physician_key):
                     patient = pat
 
-            print(patient)
             if not patient:
                 raise KeyError
         except KeyError:
@@ -97,8 +96,8 @@ def sign_up(request):
         request: A HttpRequest object.
 
     Returns:
-        A redirect to the health story home page, sign up screen for the first time, or back to
-        the sign up screen if user entered an existing username.
+        A redirect to the health story home page, sign up screen for the first
+        time, or back to the sign up screen if user entered an existing username.
     """
     # User submits sign up credentials.
     if request.method == 'POST':
@@ -108,17 +107,21 @@ def sign_up(request):
 
         if password == password_check:
             try:
-                # A user with inputted username already exists. Send the user an error.
+                # A user with inputted username already exists
                 User.objects.get(username=username)
-                return render(request, 'accounts/sign-up.html', {'error': 'Username already exists!'})
+                return render(request, 'accounts/sign-up.html',
+                              {'error': 'Username already exists!'})
             except User.DoesNotExist:
-                # No existing user exists, create user successfully and bring them to the home page.
-                user = User.objects.create_user(username=username, password=password)
+                # No existing user exists, create user successfully and bring
+                # them to the home page.
+                user = User.objects.create_user(username=username,
+                                                password=password)
                 auth.login(request, user)
                 return redirect('accounts/patient-registration')
         else:
             # User failed to enter two passwords that matched.
-            return render(request, 'accounts/sign-up.html', {'error': 'Passwords do not match!'})
+            return render(request, 'accounts/sign-up.html',
+                          {'error': 'Passwords do not match!'})
 
     # Displays sign up page.
     return render(request, 'accounts/sign-up.html')
@@ -140,7 +143,8 @@ def patient_registration(request):
         # User did not fill out all fields.
         except KeyError:
             error = "Please fill out all the fields!"
-            return render(request, 'accounts/patient-registration.html', {'error': error})
+            return render(request, 'accounts/patient-registration.html',
+                          {'error': error})
 
         patient = Patient()
         patient.username = request.user
@@ -176,6 +180,3 @@ def logout(request):
     patient.save()
     auth.logout(request)
     return redirect('landing-page')
-
-
-

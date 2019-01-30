@@ -33,8 +33,8 @@ TYPE_OF_RELATIONSHIP = (
     (MATERNAL_GRANDMOTHER, 'Maternal Grandmother'),
 )
 
-# Dictionary of health encounter types mapped to their Font Awesome icons (used in the
-# timeline of the patient story).
+# Dictionary of health encounter types mapped to their Font Awesome icons
+# (used in the timeline of the patient story).
 HE_TO_ICON = {
     SURGERY: 'fa fa-bed',
     ROUTINE_PHYSICAL: 'fa fa-calendar-check-o',
